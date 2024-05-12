@@ -11,6 +11,10 @@ import java.util.Base64;
 
 public class FileUtils {
 
+    public static  boolean isMedia(File file) {
+        return FileUtils.isImgFile(file) || FileUtils.isVideoFile(file);
+    }
+
     public static boolean isImgFile(File file) {
         String fileName = file.getName();
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();

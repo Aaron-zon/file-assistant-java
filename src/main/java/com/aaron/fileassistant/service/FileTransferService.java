@@ -52,4 +52,31 @@ public class FileTransferService {
         }
         return result;
     }
+
+    public List<TransferFolderDto> getFolderStructure(String path) throws IOException {
+        List<TransferFolderDto> result = new ArrayList<>();
+        File file = new File(path);
+        if (file.isFile()) {
+            TransferFolderDto transferFolderDto = new TransferFolderDto();
+            transferFolderDto.setPath(path);
+            transferFolderDto.setType(1);
+            transferFolderDto.setFileName(file.getName());
+            transferFolderDto.setMedia(FileUtils.isMedia(file));
+
+            result.add(transferFolderDto);
+        } else if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                TransferFolderDto transferFolderDto = new TransferFolderDto();
+                transferFolderDto.setPath(path);
+                transferFolderDto.setType(1);
+                transferFolderDto.setFileName(f.getName());
+                transferFolderDto.setMedia(FileUtils.isMedia(f));
+                result.add(transferFolderDto);
+            }
+        }
+
+
+        return result;
+    }
 }

@@ -13,4 +13,5 @@ public class TransferFolderDto {
     private File file;
     private String fileName;
     private String previewContent;
+    private boolean isMedia;
 }
