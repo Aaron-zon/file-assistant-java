@@ -21,8 +21,7 @@ public class FileExplorerController {
     @GetMapping("getEFile")
     public Response getEFile() {
         try {
-//            String path = "E:\\file\\壁纸";
-            String path = "I:\\BaiduContaiDownLoad\\video\\新的";
+            String path = "E:\\file\\壁纸";
             List<TransferFolderDto> eFile = fileTransferService.getEFile(path);
             return Response.ok(eFile);
         } catch (Exception e) {
