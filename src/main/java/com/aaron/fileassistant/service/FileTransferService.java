@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -53,30 +55,34 @@ public class FileTransferService {
         return result;
     }
 
-    public List<TransferFolderDto> getFolderStructure(String path) throws IOException {
+    public List<TransferFolderDto> getFolderStructure(String path) {
         List<TransferFolderDto> result = new ArrayList<>();
         File file = new File(path);
         if (file.isFile()) {
-            TransferFolderDto transferFolderDto = new TransferFolderDto();
-            transferFolderDto.setPath(path);
-            transferFolderDto.setType(1);
-            transferFolderDto.setFileName(file.getName());
-            transferFolderDto.setMedia(FileUtils.isMedia(file));
-
-            result.add(transferFolderDto);
+            result.add(getTransferFolderDto(file));
         } else if (file.isDirectory()) {
             File[] files = file.listFiles();
             for (File f : files) {
-                TransferFolderDto transferFolderDto = new TransferFolderDto();
-                transferFolderDto.setPath(path);
-                transferFolderDto.setType(1);
-                transferFolderDto.setFileName(f.getName());
-                transferFolderDto.setMedia(FileUtils.isMedia(f));
-                result.add(transferFolderDto);
+                result.add(getTransferFolderDto(f));
             }
         }
-
-
         return result;
+    }
+
+    private TransferFolderDto getTransferFolderDto(File file) {
+        if (file == null) {
+            return null;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        TransferFolderDto transferFolderDto = new TransferFolderDto();
+        transferFolderDto.setType(1);
+        transferFolderDto.setFileName(file.getName());
+        transferFolderDto.setMedia(FileUtils.isMedia(file));
+        transferFolderDto.setFileSize(FileUtils.formatFileSize(file.length()));
+        transferFolderDto.setFileRealSize(file.length());
+        transferFolderDto.setLastModified(file.lastModified());
+        transferFolderDto.setUpdateDate(sdf.format(new Date(file.lastModified())));
+
+        return transferFolderDto;
     }
 }

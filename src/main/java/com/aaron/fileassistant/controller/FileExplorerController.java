@@ -18,7 +18,7 @@ public class FileExplorerController {
     @Autowired
     FileTransferService fileTransferService;
 
-    String path = "E:\\file\\壁纸";
+    String path = "D:\\file";
 
     @GetMapping("getEFile")
     public Response getEFile() {

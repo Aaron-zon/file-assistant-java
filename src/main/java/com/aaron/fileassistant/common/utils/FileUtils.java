@@ -60,4 +60,19 @@ public class FileUtils {
         return bytes;
     }
 
+    public static String formatFileSize(Long fileSize) {
+        if (fileSize == null) {
+            return "0";
+        }
+        if (fileSize < 1024) {
+            return fileSize + " B";
+        } else if (fileSize < 1024 * 1024) {
+            return String.format("%.2f KB", (double) fileSize / 1024);
+        } else if (fileSize < 1024 * 1024 * 1024) {
+            return String.format("%.2f MB", (double) fileSize / (1024 * 1024));
+        } else {
+            return String.format("%.2f GB", (double) fileSize / (1024 * 1024 * 1024));
+        }
+    }
+
 }
